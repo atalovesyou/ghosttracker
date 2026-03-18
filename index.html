@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostTracker — Know When Clients Read Your Proposals</title>
+  <meta name="description" content="Upload a proposal, get a tracked link. Know exactly when clients open it, which pages they read, and when to follow up. Free for freelancers.">
+  <meta property="og:title" content="GhostTracker — Stop Getting Ghosted on Proposals">
+  <meta property="og:description" content="Track when clients open your proposals, which pages they read, and get nudged to follow up at the perfect time.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GhostTracker — Stop Getting Ghosted on Proposals">
+  <meta name="twitter:description" content="Upload a proposal. Get a tracked link. Know everything.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ghost: { 50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6' },
+            dark: { 900: '#0a0a0a', 850: '#111111', 800: '#171717', 700: '#262626', 600: '#404040', 500: '#525252' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .glow { box-shadow: 0 0 40px rgba(139, 92, 246, 0.15); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(139, 92, 246, 0.2); }
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    /* Timeline animation */
+    .timeline-item { opacity: 0; transform: translateX(-20px); animation: slideIn 0.5s ease-out forwards; }
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.5s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.7s; }
+    @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+  </style>
+</head>
+<body class="bg-dark-900 text-white min-h-screen">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur-lg border-b border-dark-700/50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">👻</span>
+        <span class="font-bold text-xl">GhostTracker</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#how" class="text-sm text-gray-400 hover:text-white transition">How it works</a>
+        <a href="#pricing" class="text-sm text-gray-400 hover:text-white transition">Pricing</a>
+        <button onclick="scrollToWaitlist()" class="bg-ghost-600 hover:bg-ghost-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          Get Early Access
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-32 pb-20 px-4">
+    <div class="max-w-4xl mx-auto text-center fade-in">
+      <div class="inline-flex items-center gap-2 bg-ghost-600/10 border border-ghost-600/30 rounded-full px-4 py-1.5 mb-8">
+        <span class="w-2 h-2 bg-ghost-400 rounded-full pulse-dot"></span>
+        <span class="text-ghost-300 text-sm font-medium">Coming soon — join the waitlist</span>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+        Stop getting<br>
+        <span class="gradient-text">ghosted</span> on proposals
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        Upload a proposal. Get a tracked link. Know exactly when they open it, which pages they read, and when to follow up.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <button onclick="scrollToWaitlist()" class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-8 py-4 rounded-xl text-lg transition glow">
+          👻 Join the Waitlist — Free
+        </button>
+        <a href="#demo" class="border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium px-8 py-4 rounded-xl text-lg transition flex items-center justify-center gap-2">
+          ▶ See how it works
+        </a>
+      </div>
+      
+      <p class="text-sm text-gray-500">Free for up to 3 proposals/month. No credit card needed.</p>
+    </div>
+  </section>
+
+  <!-- Problem Statement -->
+  <section class="py-16 px-4 border-t border-dark-700/50">
+    <div class="max-w-4xl mx-auto">
+      <div class="bg-dark-800 rounded-2xl p-8 md:p-12 border border-dark-700/50">
+        <h2 class="text-2xl font-bold mb-6 text-center">Sound familiar?</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="flex gap-3">
+            <span class="text-2xl">😑</span>
+            <div>
+              <p class="font-medium">Sent a proposal 5 days ago</p>
+              <p class="text-gray-500 text-sm">No idea if they even opened it</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-2xl">🤷</span>
+            <div>
+              <p class="font-medium">"I'll get back to you this week"</p>
+              <p class="text-gray-500 text-sm">It's been 3 weeks</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-2xl">💸</span>
+            <div>
+              <p class="font-medium">Spent 4 hours on a custom proposal</p>
+              <p class="text-gray-500 text-sm">They went with someone cheaper</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-2xl">😤</span>
+            <div>
+              <p class="font-medium">"Your price is too high"</p>
+              <p class="text-gray-500 text-sm">They only read the pricing page</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="py-20 px-4 border-t border-dark-700/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+        Three steps to <span class="gradient-text">never get ghosted</span> again
+      </h2>
+      <p class="text-gray-400 text-center mb-16 text-lg">From upload to insight in under 30 seconds</p>
+      
+      <div class="space-y-12">
+        <div class="timeline-item flex gap-6 items-start">
+          <div class="flex-shrink-0 w-12 h-12 bg-ghost-600/20 border border-ghost-600/40 rounded-xl flex items-center justify-center text-ghost-400 font-bold text-lg">1</div>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Upload your proposal</h3>
+            <p class="text-gray-400">Drag and drop a PDF, deck, or image. We don't read or store your content — just wrap it in tracking.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item flex gap-6 items-start">
+          <div class="flex-shrink-0 w-12 h-12 bg-ghost-600/20 border border-ghost-600/40 rounded-xl flex items-center justify-center text-ghost-400 font-bold text-lg">2</div>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Share the tracked link</h3>
+            <p class="text-gray-400">Send your client a clean, professional link. They see the proposal. You see everything behind it.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item flex gap-6 items-start">
+          <div class="flex-shrink-0 w-12 h-12 bg-ghost-600/20 border border-ghost-600/40 rounded-xl flex items-center justify-center text-ghost-400 font-bold text-lg">3</div>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Get real-time insights</h3>
+            <p class="text-gray-400">Know the second they open it. See which pages they lingered on. Get alerted if they forward it to someone else.</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item flex gap-6 items-start">
+          <div class="flex-shrink-0 w-12 h-12 bg-ghost-600/20 border border-ghost-600/40 rounded-xl flex items-center justify-center text-ghost-400 font-bold text-lg">🎯</div>
+          <div>
+            <h3 class="text-xl font-bold mb-2">Follow up at the perfect moment</h3>
+            <p class="text-gray-400">"They viewed your pricing page 3 times today" — that's when you send the follow-up email. We'll nudge you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo / Analytics Preview -->
+  <section id="demo" class="py-20 px-4 border-t border-dark-700/50 bg-dark-850">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12">What you'll see for every proposal</h2>
+      
+      <div class="bg-dark-800 rounded-2xl border border-dark-700/50 overflow-hidden glow">
+        <!-- Mock Dashboard -->
+        <div class="p-6 border-b border-dark-700/50 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg">Website Redesign Proposal — Acme Corp</h3>
+            <p class="text-gray-500 text-sm">Sent 2 days ago · 12 pages</p>
+          </div>
+          <span class="bg-green-500/10 text-green-400 text-sm font-medium px-3 py-1 rounded-full">Viewed 4x</span>
+        </div>
+        
+        <div class="p-6 grid md:grid-cols-3 gap-6">
+          <div class="bg-dark-700/50 rounded-xl p-4">
+            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">First Opened</p>
+            <p class="text-xl font-bold">Mar 15, 2:34 PM</p>
+            <p class="text-gray-500 text-sm">Toronto, ON · Chrome · MacBook</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-4">
+            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Total Time Reading</p>
+            <p class="text-xl font-bold">8m 42s</p>
+            <p class="text-gray-500 text-sm">Most time on pages 3, 7, 11</p>
+          </div>
+          <div class="bg-dark-700/50 rounded-xl p-4">
+            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Forwarded To</p>
+            <p class="text-xl font-bold">1 person</p>
+            <p class="text-gray-500 text-sm">New York, NY · Different device</p>
+          </div>
+        </div>
+        
+        <!-- Page Heatmap -->
+        <div class="p-6 border-t border-dark-700/50">
+          <p class="text-sm text-gray-500 uppercase tracking-wider mb-4">Page engagement</p>
+          <div class="flex gap-1.5">
+            <div class="flex-1 bg-ghost-600/60 rounded h-8 flex items-center justify-center text-xs font-medium" title="Cover">1</div>
+            <div class="flex-1 bg-ghost-600/30 rounded h-8 flex items-center justify-center text-xs font-medium">2</div>
+            <div class="flex-1 bg-ghost-600/80 rounded h-8 flex items-center justify-center text-xs font-medium" title="About Us">3</div>
+            <div class="flex-1 bg-ghost-600/20 rounded h-8 flex items-center justify-center text-xs font-medium">4</div>
+            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">5</div>
+            <div class="flex-1 bg-ghost-600/15 rounded h-8 flex items-center justify-center text-xs font-medium">6</div>
+            <div class="flex-1 bg-ghost-600/90 rounded h-8 flex items-center justify-center text-xs font-medium" title="Pricing">7</div>
+            <div class="flex-1 bg-ghost-600/20 rounded h-8 flex items-center justify-center text-xs font-medium">8</div>
+            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">9</div>
+            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">10</div>
+            <div class="flex-1 bg-ghost-600/95 rounded h-8 flex items-center justify-center text-xs font-medium" title="Pricing">11</div>
+            <div class="flex-1 bg-ghost-600/40 rounded h-8 flex items-center justify-center text-xs font-medium">12</div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-600 mt-2">
+            <span>Cover</span>
+            <span>← Higher = more time spent</span>
+            <span>End</span>
+          </div>
+        </div>
+        
+        <!-- AI Insight -->
+        <div class="p-6 border-t border-dark-700/50 bg-ghost-600/5">
+          <div class="flex gap-3">
+            <span class="text-xl">💡</span>
+            <div>
+              <p class="font-medium text-ghost-300">AI Insight</p>
+              <p class="text-gray-400 text-sm">They spent 3x more time on your pricing pages (7, 11) than anything else, and the proposal was forwarded to someone in NYC. <strong class="text-white">This looks like budget approval routing.</strong> Follow up asking if they need a revised quote for their team.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="py-20 px-4 border-t border-dark-700/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12">Built for freelancers, not enterprise sales teams</h2>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b border-dark-700/50">
+              <th class="py-4 px-4 text-gray-500 font-medium text-sm">Feature</th>
+              <th class="py-4 px-4 text-center">
+                <span class="text-ghost-400 font-bold">👻 GhostTracker</span>
+                <br><span class="text-xs text-gray-500">$9/mo</span>
+              </th>
+              <th class="py-4 px-4 text-center text-gray-400">
+                DocSend
+                <br><span class="text-xs text-gray-500">$15/user/mo</span>
+              </th>
+              <th class="py-4 px-4 text-center text-gray-400">
+                PandaDoc
+                <br><span class="text-xs text-gray-500">$35/mo</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Open tracking</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-green-400">✅</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Page-by-page analytics</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-yellow-400">⚠️ Limited</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Forward detection</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-red-400">❌</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">AI follow-up nudges</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-red-400">❌</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Free tier</td><td class="py-3 px-4 text-center text-green-400">✅ 3/mo</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-yellow-400">⚠️ 5 docs</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Setup time</td><td class="py-3 px-4 text-center text-green-400">30 seconds</td><td class="py-3 px-4 text-center text-yellow-400">5 min</td><td class="py-3 px-4 text-center text-yellow-400">15 min</td></tr>
+            <tr><td class="py-3 px-4 text-gray-400">Built for freelancers</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌ Sales teams</td><td class="py-3 px-4 text-center text-red-400">❌ Enterprise</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-20 px-4 border-t border-dark-700/50 bg-dark-850">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-4">Simple pricing</h2>
+      <p class="text-gray-400 text-center mb-12">Start free. Upgrade when you're hooked.</p>
+      
+      <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <!-- Free -->
+        <div class="bg-dark-800 rounded-2xl p-6 border border-dark-700/50 card-hover">
+          <h3 class="font-bold text-lg mb-1">Free</h3>
+          <p class="text-3xl font-extrabold mb-4">$0<span class="text-sm font-normal text-gray-500">/mo</span></p>
+          <ul class="space-y-2 text-sm text-gray-400 mb-6">
+            <li class="flex gap-2"><span class="text-green-400">✓</span> 3 tracked proposals/month</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Open alerts (email)</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Basic analytics</li>
+            <li class="flex gap-2"><span class="text-gray-600">—</span> <span class="text-gray-600">Page-by-page tracking</span></li>
+            <li class="flex gap-2"><span class="text-gray-600">—</span> <span class="text-gray-600">Forward detection</span></li>
+          </ul>
+          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">
+            Join Waitlist
+          </button>
+        </div>
+        
+        <!-- Pro -->
+        <div class="bg-dark-800 rounded-2xl p-6 border-2 border-ghost-600/50 card-hover glow relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-ghost-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
+          <h3 class="font-bold text-lg mb-1">Pro</h3>
+          <p class="text-3xl font-extrabold mb-4">$9<span class="text-sm font-normal text-gray-500">/mo</span></p>
+          <ul class="space-y-2 text-sm text-gray-400 mb-6">
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Unlimited proposals</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Page-by-page analytics</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Forward detection</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> AI follow-up nudges</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Expiring links</li>
+          </ul>
+          <button onclick="scrollToWaitlist()" class="w-full bg-ghost-600 hover:bg-ghost-700 text-white font-medium py-2.5 rounded-lg transition text-sm">
+            Join Waitlist
+          </button>
+        </div>
+        
+        <!-- Agency -->
+        <div class="bg-dark-800 rounded-2xl p-6 border border-dark-700/50 card-hover">
+          <h3 class="font-bold text-lg mb-1">Agency</h3>
+          <p class="text-3xl font-extrabold mb-4">$19<span class="text-sm font-normal text-gray-500">/mo</span></p>
+          <ul class="space-y-2 text-sm text-gray-400 mb-6">
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Everything in Pro</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Team workspace (5 seats)</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Custom branding</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Stripe "Accept & Pay"</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Priority support</li>
+          </ul>
+          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">
+            Join Waitlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist -->
+  <section id="waitlist" class="py-20 px-4 border-t border-dark-700/50">
+    <div class="max-w-lg mx-auto text-center">
+      <span class="text-5xl mb-6 block">👻</span>
+      <h2 class="text-3xl font-bold mb-4">Stop guessing. Start knowing.</h2>
+      <p class="text-gray-400 mb-8">Join the waitlist and be first to track your proposals.</p>
+      
+      <div id="waitlist-form">
+        <div class="flex gap-3">
+          <input 
+            type="email" 
+            id="email-input" 
+            placeholder="you@freelance.com" 
+            class="flex-1 bg-dark-800 border border-dark-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition"
+          >
+          <button 
+            onclick="submitWaitlist()" 
+            id="submit-btn"
+            class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-6 py-3 rounded-xl transition whitespace-nowrap"
+          >
+            Get Early Access
+          </button>
+        </div>
+        <p class="text-xs text-gray-600 mt-3">No spam. Just a heads up when we launch.</p>
+      </div>
+      
+      <div id="waitlist-success" class="hidden">
+        <div class="bg-ghost-600/10 border border-ghost-600/30 rounded-xl p-6">
+          <p class="text-xl font-bold text-ghost-300 mb-2">You're in! 👻</p>
+          <p class="text-gray-400">We'll email you when GhostTracker is ready. You'll be one of the first to know.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500">
+        <span class="flex items-center gap-1">🔒 Privacy-first</span>
+        <span class="flex items-center gap-1">⚡ Free tier forever</span>
+        <span class="flex items-center gap-1">🚀 Launching soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-4 border-t border-dark-700/50">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span>👻</span>
+        <span class="text-sm text-gray-500">GhostTracker — an <a href="https://opensphere.ai" class="text-ghost-400 hover:text-ghost-300 transition">OpenSphere</a> product</span>
+      </div>
+      <div class="flex gap-6 text-sm text-gray-500">
+        <a href="#" class="hover:text-white transition">Twitter</a>
+        <a href="#" class="hover:text-white transition">GitHub</a>
+        <a href="mailto:hello@opensphere.ai" class="hover:text-white transition">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function scrollToWaitlist() {
+      document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => document.getElementById('email-input')?.focus(), 500);
+    }
+
+    function submitWaitlist() {
+      const email = document.getElementById('email-input').value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('email-input').style.borderColor = '#ef4444';
+        setTimeout(() => document.getElementById('email-input').style.borderColor = '', 2000);
+        return;
+      }
+
+      // Store locally (will connect to API later)
+      const waitlist = JSON.parse(localStorage.getItem('ghosttracker_waitlist') || '[]');
+      if (!waitlist.includes(email)) {
+        waitlist.push(email);
+        localStorage.setItem('ghosttracker_waitlist', JSON.stringify(waitlist));
+      }
+
+      // Update counter
+      updateCounter();
+
+      // Show success
+      document.getElementById('waitlist-form').classList.add('hidden');
+      document.getElementById('waitlist-success').classList.remove('hidden');
+    }
+
+    function updateCounter() {
+      const count = JSON.parse(localStorage.getItem('ghosttracker_waitlist') || '[]').length;
+      // Future: show waitlist count
+    }
+
+    // Enter key submits
+    document.getElementById('email-input')?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') submitWaitlist();
+    });
+  </script>
+
+</body>
+</html>
