@@ -9,7 +9,7 @@
       "url": "https://atalovesyou.github.io/ghosttracker/",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "description": "Proposal analytics and tracking for freelancers",
+      "description": "Proposal analytics and tracking for freelancers — track opens, page views, forwards, and get AI follow-up suggestions",
       "offers": {
             "@type": "Offer",
             "price": "0",
@@ -20,7 +20,7 @@
             "name": "OpenSphere Labs",
             "url": "https://atalovesyou.github.io/opensphere-labs/"
       }
-}
+    }
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +32,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GhostTracker — Stop Getting Ghosted on Proposals">
   <meta name="twitter:description" content="Upload a proposal. Get a tracked link. Know everything.">
+  <link rel="canonical" href="https://atalovesyou.github.io/ghosttracker/">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -57,20 +58,26 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    /* Timeline animation */
     .timeline-item { opacity: 0; transform: translateX(-20px); animation: slideIn 0.5s ease-out forwards; }
     .timeline-item:nth-child(1) { animation-delay: 0.1s; }
     .timeline-item:nth-child(2) { animation-delay: 0.3s; }
     .timeline-item:nth-child(3) { animation-delay: 0.5s; }
     .timeline-item:nth-child(4) { animation-delay: 0.7s; }
     @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+    .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(10px); }
+    @keyframes eventPop { from { opacity: 0; transform: translateX(-10px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }
+    .event-pop { animation: eventPop 0.4s ease-out; }
+    @keyframes scoreGlow { 0%, 100% { box-shadow: 0 0 10px currentColor; } 50% { box-shadow: 0 0 25px currentColor; } }
+    .score-glow { animation: scoreGlow 2s ease-in-out infinite; }
+    .heatmap-bar { transition: all 0.3s ease; cursor: pointer; }
+    .heatmap-bar:hover { filter: brightness(1.3); transform: scaleY(1.1); }
+    .tab-active { border-bottom: 2px solid #8b5cf6; color: white; }
+    .tab-inactive { border-bottom: 2px solid transparent; color: #6b7280; }
+    .tab-inactive:hover { color: #9ca3af; }
+    .copy-toast { animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateY(-10px); } }
   </style>
-  <link rel="canonical" href="https://atalovesyou.github.io/ghosttracker/">
-  <meta property="og:image" content="https://atalovesyou.github.io/ghosttracker/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:image" content="https://atalovesyou.github.io/ghosttracker/og-image.png">
-  <meta property="og:url" content="https://atalovesyou.github.io/ghosttracker/">
 </head>
 <body class="bg-dark-900 text-white min-h-screen">
 
@@ -82,6 +89,7 @@
         <span class="font-bold text-xl">GhostTracker</span>
       </div>
       <div class="flex items-center gap-4">
+        <a href="#tracker" class="text-sm text-gray-400 hover:text-white transition">Try It</a>
         <a href="#how" class="text-sm text-gray-400 hover:text-white transition">How it works</a>
         <a href="#pricing" class="text-sm text-gray-400 hover:text-white transition">Pricing</a>
         <button onclick="scrollToWaitlist()" class="bg-ghost-600 hover:bg-ghost-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
@@ -96,7 +104,7 @@
     <div class="max-w-4xl mx-auto text-center fade-in">
       <div class="inline-flex items-center gap-2 bg-ghost-600/10 border border-ghost-600/30 rounded-full px-4 py-1.5 mb-8">
         <span class="w-2 h-2 bg-ghost-400 rounded-full pulse-dot"></span>
-        <span class="text-ghost-300 text-sm font-medium">Coming soon — join the waitlist</span>
+        <span class="text-ghost-300 text-sm font-medium">Try the interactive tracker below ↓</span>
       </div>
       
       <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
@@ -109,15 +117,223 @@
       </p>
       
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-        <button onclick="scrollToWaitlist()" class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-8 py-4 rounded-xl text-lg transition glow">
-          👻 Join the Waitlist — Free
-        </button>
-        <a href="#demo" class="border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium px-8 py-4 rounded-xl text-lg transition flex items-center justify-center gap-2">
+        <a href="#tracker" class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-8 py-4 rounded-xl text-lg transition glow">
+          👻 Try the Tracker — Free
+        </a>
+        <a href="#how" class="border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium px-8 py-4 rounded-xl text-lg transition flex items-center justify-center gap-2">
           ▶ See how it works
         </a>
       </div>
       
       <p class="text-sm text-gray-500">Free for up to 3 proposals/month. No credit card needed.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- INTERACTIVE PROPOSAL TRACKER (v2.0) -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section id="tracker" class="py-20 px-4 border-t border-dark-700/50 bg-dark-850">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-3">
+          <span class="gradient-text">Interactive Proposal Tracker</span>
+        </h2>
+        <p class="text-gray-400 text-lg">Create a proposal → Watch simulated client activity in real-time</p>
+      </div>
+
+      <!-- Proposal Dashboard Summary -->
+      <div id="dashboard-summary" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="glass rounded-xl p-4 text-center">
+          <p class="text-2xl font-bold" id="stat-total">0</p>
+          <p class="text-xs text-gray-500 uppercase tracking-wider">Proposals</p>
+        </div>
+        <div class="glass rounded-xl p-4 text-center">
+          <p class="text-2xl font-bold text-green-400" id="stat-viewed">0</p>
+          <p class="text-xs text-gray-500 uppercase tracking-wider">Viewed</p>
+        </div>
+        <div class="glass rounded-xl p-4 text-center">
+          <p class="text-2xl font-bold text-yellow-400" id="stat-pending">0</p>
+          <p class="text-xs text-gray-500 uppercase tracking-wider">Pending</p>
+        </div>
+        <div class="glass rounded-xl p-4 text-center">
+          <p class="text-2xl font-bold text-red-400" id="stat-ghosted">0</p>
+          <p class="text-xs text-gray-500 uppercase tracking-wider">Ghosted</p>
+        </div>
+      </div>
+
+      <!-- Create New Proposal -->
+      <div id="create-form" class="glass rounded-2xl p-6 mb-8">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2">📄 Create Tracked Proposal</h3>
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Client Name</label>
+            <input type="text" id="inp-client" placeholder="e.g., Acme Corp" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Proposal Title</label>
+            <input type="text" id="inp-title" placeholder="e.g., Website Redesign Proposal" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition text-sm">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Pages</label>
+            <input type="number" id="inp-pages" value="12" min="1" max="50" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-ghost-600 transition text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Proposal Value</label>
+            <div class="flex">
+              <span class="bg-dark-700 border border-dark-600 border-r-0 rounded-l-lg px-3 py-2.5 text-gray-400 text-sm">$</span>
+              <input type="number" id="inp-value" placeholder="5000" class="w-full bg-dark-800 border border-dark-600 rounded-r-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition text-sm">
+            </div>
+          </div>
+          <div>
+            <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Type</label>
+            <select id="inp-type" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-ghost-600 transition text-sm">
+              <option value="web">Web Development</option>
+              <option value="design">Design / Branding</option>
+              <option value="marketing">Marketing / SEO</option>
+              <option value="consulting">Consulting</option>
+              <option value="video">Video Production</option>
+              <option value="writing">Content / Writing</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="createProposal()" class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-6 py-2.5 rounded-lg transition text-sm">
+          🔗 Create Tracked Link
+        </button>
+      </div>
+
+      <!-- Proposal List -->
+      <div id="proposal-list" class="space-y-4 mb-8"></div>
+
+      <!-- Active Proposal Detail View -->
+      <div id="detail-view" class="hidden">
+        <!-- Header -->
+        <div class="glass rounded-t-2xl p-6 border-b-0">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <button onclick="closeDetail()" class="text-gray-500 hover:text-white text-sm mb-2 flex items-center gap-1 transition">← Back to all proposals</button>
+              <h3 class="text-xl font-bold" id="detail-title"></h3>
+              <p class="text-gray-500 text-sm" id="detail-meta"></p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div id="detail-status" class="px-3 py-1 rounded-full text-sm font-medium"></div>
+              <div id="detail-score" class="px-3 py-1 rounded-full text-sm font-bold"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tracked Link -->
+        <div class="glass rounded-none p-4 border-t-0 border-b-0 bg-ghost-600/5">
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-gray-500">Tracked link:</span>
+            <code id="detail-link" class="text-sm text-ghost-300 bg-dark-800 px-3 py-1 rounded font-mono flex-1 truncate"></code>
+            <button onclick="copyLink()" class="text-ghost-400 hover:text-ghost-300 text-sm transition flex items-center gap-1">📋 Copy</button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="glass rounded-none border-t-0 border-b-0">
+          <div class="flex gap-0">
+            <button onclick="switchTab('overview')" id="tab-overview" class="tab-active px-6 py-3 text-sm font-medium transition">Overview</button>
+            <button onclick="switchTab('activity')" id="tab-activity" class="tab-inactive px-6 py-3 text-sm font-medium transition">Activity Feed</button>
+            <button onclick="switchTab('heatmap')" id="tab-heatmap" class="tab-inactive px-6 py-3 text-sm font-medium transition">Page Heatmap</button>
+            <button onclick="switchTab('followup')" id="tab-followup" class="tab-inactive px-6 py-3 text-sm font-medium transition">Follow-Up</button>
+          </div>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div id="panel-overview" class="glass rounded-none rounded-b-2xl p-6 border-t-0">
+          <div class="grid md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-dark-800 rounded-xl p-4">
+              <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Total Views</p>
+              <p class="text-2xl font-bold" id="ov-views">0</p>
+            </div>
+            <div class="bg-dark-800 rounded-xl p-4">
+              <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Unique Viewers</p>
+              <p class="text-2xl font-bold" id="ov-unique">0</p>
+            </div>
+            <div class="bg-dark-800 rounded-xl p-4">
+              <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Total Reading Time</p>
+              <p class="text-2xl font-bold" id="ov-time">0s</p>
+            </div>
+            <div class="bg-dark-800 rounded-xl p-4">
+              <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Forwarded To</p>
+              <p class="text-2xl font-bold" id="ov-forwards">0</p>
+            </div>
+          </div>
+          <!-- AI Insight -->
+          <div id="ov-insight" class="bg-ghost-600/5 border border-ghost-600/20 rounded-xl p-5">
+            <div class="flex gap-3">
+              <span class="text-xl">💡</span>
+              <div>
+                <p class="font-medium text-ghost-300 mb-1">AI Insight</p>
+                <p class="text-gray-400 text-sm" id="ov-insight-text">Create a proposal and simulate tracking to see AI insights.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Activity Feed -->
+        <div id="panel-activity" class="glass rounded-none rounded-b-2xl p-6 border-t-0 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-bold">Live Activity</h4>
+            <button onclick="simulateActivity()" class="bg-ghost-600/20 hover:bg-ghost-600/30 text-ghost-300 text-xs font-medium px-3 py-1.5 rounded-lg transition">⚡ Simulate New Activity</button>
+          </div>
+          <div id="activity-feed" class="space-y-3 max-h-96 overflow-y-auto">
+            <p class="text-gray-500 text-sm text-center py-8">No activity yet. Click "Simulate" to see tracking in action.</p>
+          </div>
+        </div>
+
+        <!-- Tab: Page Heatmap -->
+        <div id="panel-heatmap" class="glass rounded-none rounded-b-2xl p-6 border-t-0 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-bold">Page Engagement Heatmap</h4>
+            <p class="text-xs text-gray-500">Click a page to see details</p>
+          </div>
+          <div id="heatmap-container" class="mb-4"></div>
+          <div id="heatmap-detail" class="bg-dark-800 rounded-xl p-4 hidden">
+            <p class="font-medium text-sm" id="heatmap-page-title"></p>
+            <div class="grid grid-cols-3 gap-4 mt-2">
+              <div><p class="text-xs text-gray-500">Time Spent</p><p class="font-bold text-sm" id="hm-time"></p></div>
+              <div><p class="text-xs text-gray-500">Views</p><p class="font-bold text-sm" id="hm-views"></p></div>
+              <div><p class="text-xs text-gray-500">Scroll Depth</p><p class="font-bold text-sm" id="hm-scroll"></p></div>
+            </div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-600 mt-2">
+            <span>← Low engagement</span>
+            <span>High engagement →</span>
+          </div>
+        </div>
+
+        <!-- Tab: Follow-Up -->
+        <div id="panel-followup" class="glass rounded-none rounded-b-2xl p-6 border-t-0 hidden">
+          <h4 class="font-bold mb-2">AI Follow-Up Email Generator</h4>
+          <p class="text-gray-500 text-sm mb-4">Based on your client's viewing patterns, here are contextual follow-up emails.</p>
+          <div class="space-y-4">
+            <div>
+              <label class="text-xs text-gray-500 uppercase tracking-wider mb-1 block">Your Name</label>
+              <input type="text" id="fu-name" placeholder="Your name" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition text-sm">
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              <button onclick="generateFollowUp('gentle')" class="bg-green-600/20 hover:bg-green-600/30 border border-green-600/30 text-green-300 font-medium py-2.5 rounded-lg transition text-sm">😊 Gentle Check-In</button>
+              <button onclick="generateFollowUp('value')" class="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-600/30 text-blue-300 font-medium py-2.5 rounded-lg transition text-sm">💎 Value Add</button>
+              <button onclick="generateFollowUp('urgent')" class="bg-orange-600/20 hover:bg-orange-600/30 border border-orange-600/30 text-orange-300 font-medium py-2.5 rounded-lg transition text-sm">🔥 Urgency</button>
+            </div>
+            <div id="followup-output" class="hidden">
+              <div class="bg-dark-800 rounded-xl p-5 relative">
+                <button onclick="copyFollowUp()" class="absolute top-3 right-3 text-gray-500 hover:text-white text-xs transition">📋 Copy</button>
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-2" id="fu-subject-label">Subject:</p>
+                <p class="font-medium text-sm mb-3" id="fu-subject"></p>
+                <div class="border-t border-dark-600 pt-3">
+                  <pre class="text-sm text-gray-300 whitespace-pre-wrap font-sans leading-relaxed" id="fu-body"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -204,77 +420,6 @@
     </div>
   </section>
 
-  <!-- Demo / Analytics Preview -->
-  <section id="demo" class="py-20 px-4 border-t border-dark-700/50 bg-dark-850">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-12">What you'll see for every proposal</h2>
-      
-      <div class="bg-dark-800 rounded-2xl border border-dark-700/50 overflow-hidden glow">
-        <!-- Mock Dashboard -->
-        <div class="p-6 border-b border-dark-700/50 flex items-center justify-between">
-          <div>
-            <h3 class="font-bold text-lg">Website Redesign Proposal — Acme Corp</h3>
-            <p class="text-gray-500 text-sm">Sent 2 days ago · 12 pages</p>
-          </div>
-          <span class="bg-green-500/10 text-green-400 text-sm font-medium px-3 py-1 rounded-full">Viewed 4x</span>
-        </div>
-        
-        <div class="p-6 grid md:grid-cols-3 gap-6">
-          <div class="bg-dark-700/50 rounded-xl p-4">
-            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">First Opened</p>
-            <p class="text-xl font-bold">Mar 15, 2:34 PM</p>
-            <p class="text-gray-500 text-sm">Toronto, ON · Chrome · MacBook</p>
-          </div>
-          <div class="bg-dark-700/50 rounded-xl p-4">
-            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Total Time Reading</p>
-            <p class="text-xl font-bold">8m 42s</p>
-            <p class="text-gray-500 text-sm">Most time on pages 3, 7, 11</p>
-          </div>
-          <div class="bg-dark-700/50 rounded-xl p-4">
-            <p class="text-gray-500 text-xs uppercase tracking-wider mb-1">Forwarded To</p>
-            <p class="text-xl font-bold">1 person</p>
-            <p class="text-gray-500 text-sm">New York, NY · Different device</p>
-          </div>
-        </div>
-        
-        <!-- Page Heatmap -->
-        <div class="p-6 border-t border-dark-700/50">
-          <p class="text-sm text-gray-500 uppercase tracking-wider mb-4">Page engagement</p>
-          <div class="flex gap-1.5">
-            <div class="flex-1 bg-ghost-600/60 rounded h-8 flex items-center justify-center text-xs font-medium" title="Cover">1</div>
-            <div class="flex-1 bg-ghost-600/30 rounded h-8 flex items-center justify-center text-xs font-medium">2</div>
-            <div class="flex-1 bg-ghost-600/80 rounded h-8 flex items-center justify-center text-xs font-medium" title="About Us">3</div>
-            <div class="flex-1 bg-ghost-600/20 rounded h-8 flex items-center justify-center text-xs font-medium">4</div>
-            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">5</div>
-            <div class="flex-1 bg-ghost-600/15 rounded h-8 flex items-center justify-center text-xs font-medium">6</div>
-            <div class="flex-1 bg-ghost-600/90 rounded h-8 flex items-center justify-center text-xs font-medium" title="Pricing">7</div>
-            <div class="flex-1 bg-ghost-600/20 rounded h-8 flex items-center justify-center text-xs font-medium">8</div>
-            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">9</div>
-            <div class="flex-1 bg-ghost-600/10 rounded h-8 flex items-center justify-center text-xs font-medium">10</div>
-            <div class="flex-1 bg-ghost-600/95 rounded h-8 flex items-center justify-center text-xs font-medium" title="Pricing">11</div>
-            <div class="flex-1 bg-ghost-600/40 rounded h-8 flex items-center justify-center text-xs font-medium">12</div>
-          </div>
-          <div class="flex justify-between text-xs text-gray-600 mt-2">
-            <span>Cover</span>
-            <span>← Higher = more time spent</span>
-            <span>End</span>
-          </div>
-        </div>
-        
-        <!-- AI Insight -->
-        <div class="p-6 border-t border-dark-700/50 bg-ghost-600/5">
-          <div class="flex gap-3">
-            <span class="text-xl">💡</span>
-            <div>
-              <p class="font-medium text-ghost-300">AI Insight</p>
-              <p class="text-gray-400 text-sm">They spent 3x more time on your pricing pages (7, 11) than anything else, and the proposal was forwarded to someone in NYC. <strong class="text-white">This looks like budget approval routing.</strong> Follow up asking if they need a revised quote for their team.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Comparison -->
   <section class="py-20 px-4 border-t border-dark-700/50">
     <div class="max-w-4xl mx-auto">
@@ -304,6 +449,7 @@
             <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Page-by-page analytics</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-yellow-400">⚠️ Limited</td></tr>
             <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Forward detection</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-red-400">❌</td></tr>
             <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">AI follow-up nudges</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-red-400">❌</td></tr>
+            <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Engagement scoring</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-red-400">❌</td></tr>
             <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Free tier</td><td class="py-3 px-4 text-center text-green-400">✅ 3/mo</td><td class="py-3 px-4 text-center text-red-400">❌</td><td class="py-3 px-4 text-center text-yellow-400">⚠️ 5 docs</td></tr>
             <tr class="border-b border-dark-700/30"><td class="py-3 px-4 text-gray-400">Setup time</td><td class="py-3 px-4 text-center text-green-400">30 seconds</td><td class="py-3 px-4 text-center text-yellow-400">5 min</td><td class="py-3 px-4 text-center text-yellow-400">15 min</td></tr>
             <tr><td class="py-3 px-4 text-gray-400">Built for freelancers</td><td class="py-3 px-4 text-center text-green-400">✅</td><td class="py-3 px-4 text-center text-red-400">❌ Sales teams</td><td class="py-3 px-4 text-center text-red-400">❌ Enterprise</td></tr>
@@ -320,7 +466,6 @@
       <p class="text-gray-400 text-center mb-12">Start free. Upgrade when you're hooked.</p>
       
       <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-        <!-- Free -->
         <div class="bg-dark-800 rounded-2xl p-6 border border-dark-700/50 card-hover">
           <h3 class="font-bold text-lg mb-1">Free</h3>
           <p class="text-3xl font-extrabold mb-4">$0<span class="text-sm font-normal text-gray-500">/mo</span></p>
@@ -331,12 +476,9 @@
             <li class="flex gap-2"><span class="text-gray-600">—</span> <span class="text-gray-600">Page-by-page tracking</span></li>
             <li class="flex gap-2"><span class="text-gray-600">—</span> <span class="text-gray-600">Forward detection</span></li>
           </ul>
-          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">
-            Join Waitlist
-          </button>
+          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">Join Waitlist</button>
         </div>
         
-        <!-- Pro -->
         <div class="bg-dark-800 rounded-2xl p-6 border-2 border-ghost-600/50 card-hover glow relative">
           <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-ghost-600 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
           <h3 class="font-bold text-lg mb-1">Pro</h3>
@@ -346,14 +488,11 @@
             <li class="flex gap-2"><span class="text-green-400">✓</span> Page-by-page analytics</li>
             <li class="flex gap-2"><span class="text-green-400">✓</span> Forward detection</li>
             <li class="flex gap-2"><span class="text-green-400">✓</span> AI follow-up nudges</li>
-            <li class="flex gap-2"><span class="text-green-400">✓</span> Expiring links</li>
+            <li class="flex gap-2"><span class="text-green-400">✓</span> Engagement scoring</li>
           </ul>
-          <button onclick="scrollToWaitlist()" class="w-full bg-ghost-600 hover:bg-ghost-700 text-white font-medium py-2.5 rounded-lg transition text-sm">
-            Join Waitlist
-          </button>
+          <button onclick="scrollToWaitlist()" class="w-full bg-ghost-600 hover:bg-ghost-700 text-white font-medium py-2.5 rounded-lg transition text-sm">Join Waitlist</button>
         </div>
         
-        <!-- Agency -->
         <div class="bg-dark-800 rounded-2xl p-6 border border-dark-700/50 card-hover">
           <h3 class="font-bold text-lg mb-1">Agency</h3>
           <p class="text-3xl font-extrabold mb-4">$19<span class="text-sm font-normal text-gray-500">/mo</span></p>
@@ -364,9 +503,7 @@
             <li class="flex gap-2"><span class="text-green-400">✓</span> Stripe "Accept & Pay"</li>
             <li class="flex gap-2"><span class="text-green-400">✓</span> Priority support</li>
           </ul>
-          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">
-            Join Waitlist
-          </button>
+          <button onclick="scrollToWaitlist()" class="w-full border border-dark-600 hover:border-ghost-600/50 text-gray-300 font-medium py-2.5 rounded-lg transition text-sm">Join Waitlist</button>
         </div>
       </div>
     </div>
@@ -380,21 +517,16 @@
       <p class="text-gray-400 mb-8">Join the waitlist and be first to track your proposals.</p>
       
       <div id="waitlist-form">
-        <div class="flex gap-3">
-          <input 
-            type="email" 
-            id="email-input" 
-            placeholder="you@freelance.com" 
-            class="flex-1 bg-dark-800 border border-dark-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition"
-          >
-          <button 
-            onclick="submitWaitlist()" 
-            id="submit-btn"
-            class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-6 py-3 rounded-xl transition whitespace-nowrap"
-          >
-            Get Early Access
-          </button>
-        </div>
+        <form action="https://formsubmit.co/ajax/atalashutosh@gmail.com" method="POST" id="waitlist-form-el">
+          <input type="hidden" name="_subject" value="GhostTracker Waitlist Signup">
+          <input type="hidden" name="_template" value="box">
+          <input type="hidden" name="product" value="GhostTracker">
+          <input type="text" name="_honey" style="display:none">
+          <div class="flex gap-3">
+            <input type="email" name="email" id="email-input" placeholder="you@freelance.com" required class="flex-1 bg-dark-800 border border-dark-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-ghost-600 transition">
+            <button type="submit" id="submit-btn" class="bg-ghost-600 hover:bg-ghost-700 text-white font-semibold px-6 py-3 rounded-xl transition whitespace-nowrap">Get Early Access</button>
+          </div>
+        </form>
         <p class="text-xs text-gray-600 mt-3">No spam. Just a heads up when we launch.</p>
       </div>
       
@@ -413,6 +545,54 @@
     </div>
   </section>
 
+  <!-- Cross-Promotion: OpenSphere Labs -->
+  <section class="py-16 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <p class="text-sm text-gray-500 uppercase tracking-widest mb-2">Also from</p>
+        <a href="https://atalovesyou.github.io/opensphere-labs/" target="_blank" class="text-xl font-bold text-white hover:text-indigo-400 transition">OpenSphere Labs</a>
+        <p class="text-gray-400 text-sm mt-2">The Freelancer Stack — AI tools for every step of your workflow</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="https://atalovesyou.github.io/intakebot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">💬 IntakeBot</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI client intake</div>
+        </a>
+        <a href="https://atalovesyou.github.io/proposalpilot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">📋 ProposalPilot</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI proposal builder</div>
+        </a>
+        <a href="https://atalovesyou.github.io/contractpilot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">📝 ContractPilot</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI contracts</div>
+        </a>
+        <a href="https://atalovesyou.github.io/invoicepilot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">💰 InvoicePilot</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI invoicing</div>
+        </a>
+        <a href="https://atalovesyou.github.io/reviewagent/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">⭐ ReviewAgent</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI review management</div>
+        </a>
+        <a href="https://atalovesyou.github.io/unslop-ai/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">🧹 UnSlop.ai</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">AI slop detector</div>
+        </a>
+        <a href="https://atalovesyou.github.io/immigranttax-ai/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">🌍 ImmigrantTax.ai</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">Cross-border tax</div>
+        </a>
+        <a href="https://atalovesyou.github.io/nameforge/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
+          <div class="text-lg mb-1">✨ NameForge</div>
+          <div class="text-xs text-gray-400 group-hover:text-gray-300">Business name gen</div>
+        </a>
+      </div>
+      <div class="text-center mt-8">
+        <a href="https://atalovesyou.github.io/opensphere-labs/" target="_blank" class="text-sm text-indigo-400 hover:text-indigo-300 transition">View the full Freelancer Stack →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="py-8 px-4 border-t border-dark-700/50">
     <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -421,153 +601,502 @@
         <span class="text-sm text-gray-500">GhostTracker — an <a href="https://opensphere.ai" class="text-ghost-400 hover:text-ghost-300 transition">OpenSphere</a> product</span>
       </div>
       <div class="flex gap-6 text-sm text-gray-500">
-        <a href="#" class="hover:text-white transition">Twitter</a>
-        <a href="#" class="hover:text-white transition">GitHub</a>
+        <a href="https://twitter.com/atalovesyou" class="hover:text-white transition">Twitter</a>
+        <a href="https://github.com/atalovesyou/ghosttracker" class="hover:text-white transition">GitHub</a>
         <a href="mailto:hello@opensphere.ai" class="hover:text-white transition">Contact</a>
       </div>
     </div>
   </footer>
 
+  <!-- GoatCounter Analytics -->
+  <script data-goatcounter="https://opensphere.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
   <script>
-    function scrollToWaitlist() {
-      document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => document.getElementById('email-input')?.focus(), 500);
+  // ═══════════════════════════════════════════════════════════
+  // GhostTracker v2.0 — Interactive Proposal Tracking Engine
+  // ═══════════════════════════════════════════════════════════
+
+  const STORAGE_KEY = 'ghosttracker_proposals';
+  let proposals = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  let activeProposalId = null;
+
+  // Cities/devices for realistic simulation
+  const CITIES = [
+    'New York, NY', 'San Francisco, CA', 'Toronto, ON', 'London, UK', 'Chicago, IL',
+    'Austin, TX', 'Miami, FL', 'Denver, CO', 'Seattle, WA', 'Boston, MA',
+    'Los Angeles, CA', 'Portland, OR', 'Vancouver, BC', 'Berlin, DE', 'Sydney, AU'
+  ];
+  const DEVICES = [
+    { browser: 'Chrome', os: 'MacBook Pro' },
+    { browser: 'Safari', os: 'iPhone 15' },
+    { browser: 'Chrome', os: 'Windows 11' },
+    { browser: 'Firefox', os: 'MacBook Air' },
+    { browser: 'Edge', os: 'Surface Pro' },
+    { browser: 'Safari', os: 'iPad Pro' },
+    { browser: 'Chrome', os: 'Pixel 8' },
+    { browser: 'Safari', os: 'MacBook Pro' },
+  ];
+
+  const PAGE_LABELS = {
+    web: ['Cover', 'About Us', 'Challenge', 'Approach', 'Wireframes', 'Design System', 'Development', 'Timeline', 'Pricing', 'Case Studies', 'Testimonials', 'Next Steps'],
+    design: ['Cover', 'Our Studio', 'Brief', 'Concept', 'Moodboard', 'Logo Options', 'Color Palette', 'Typography', 'Applications', 'Timeline', 'Investment', 'Let\'s Go'],
+    marketing: ['Cover', 'About', 'Audit', 'Strategy', 'Channels', 'Content Plan', 'SEO Roadmap', 'Paid Media', 'KPIs', 'Timeline', 'Pricing', 'Next Steps'],
+    consulting: ['Cover', 'Firm Overview', 'Challenge', 'Methodology', 'Workstreams', 'Team', 'Deliverables', 'Timeline', 'Fees', 'Case Study', 'Terms', 'Start'],
+    video: ['Cover', 'Production Co', 'Brief', 'Creative', 'Storyboard', 'Shot List', 'Talent', 'Locations', 'Schedule', 'Post-Production', 'Pricing', 'Book'],
+    writing: ['Cover', 'About Me', 'Understanding', 'Approach', 'Content Strategy', 'Sample Topics', 'Distribution', 'SEO', 'Timeline', 'Packages', 'Clips', 'Next Steps'],
+    other: ['Cover', 'Overview', 'Scope', 'Approach', 'Phase 1', 'Phase 2', 'Phase 3', 'Deliverables', 'Timeline', 'Pricing', 'FAQ', 'Next Steps'],
+  };
+
+  // ─── Create Proposal ───
+  function createProposal() {
+    const client = document.getElementById('inp-client').value.trim();
+    const title = document.getElementById('inp-title').value.trim();
+    const pages = parseInt(document.getElementById('inp-pages').value) || 12;
+    const value = parseInt(document.getElementById('inp-value').value) || 0;
+    const type = document.getElementById('inp-type').value;
+
+    if (!client || !title) {
+      ['inp-client', 'inp-title'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) { el.style.borderColor = '#ef4444'; setTimeout(() => el.style.borderColor = '', 2000); }
+      });
+      return;
     }
 
-    function submitWaitlist() {
-      const email = document.getElementById('email-input').value.trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById('email-input').style.borderColor = '#ef4444';
-        setTimeout(() => document.getElementById('email-input').style.borderColor = '', 2000);
-        return;
-      }
+    const id = 'gt_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const proposal = {
+      id, client, title, pages: Math.min(pages, 50), value, type,
+      created: Date.now(),
+      status: 'sent', // sent | viewed | engaged | ghosted
+      events: [],
+      pageData: Array.from({ length: Math.min(pages, 50) }, (_, i) => ({
+        page: i + 1,
+        label: (PAGE_LABELS[type] || PAGE_LABELS.other)[i] || `Page ${i + 1}`,
+        views: 0,
+        timeMs: 0,
+        scrollPct: 0,
+      })),
+      viewers: [],
+      link: `https://ghosttracker.ai/v/${id.slice(3, 11)}`,
+    };
 
-      // Store locally (will connect to API later)
-      const waitlist = JSON.parse(localStorage.getItem('ghosttracker_waitlist') || '[]');
-      if (!waitlist.includes(email)) {
-        waitlist.push(email);
-        localStorage.setItem('ghosttracker_waitlist', JSON.stringify(waitlist));
-      }
+    proposals.unshift(proposal);
+    save();
+    // Clear inputs
+    document.getElementById('inp-client').value = '';
+    document.getElementById('inp-title').value = '';
+    document.getElementById('inp-value').value = '';
+    renderList();
+    openDetail(id);
+  }
 
-      // Update counter
-      updateCounter();
+  // ─── Save / Load ───
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(proposals)); }
 
-      // Show success
-      document.getElementById('waitlist-form').classList.add('hidden');
-      document.getElementById('waitlist-success').classList.remove('hidden');
-    }
+  // ─── Render Proposal List ───
+  function renderList() {
+    const el = document.getElementById('proposal-list');
+    if (!proposals.length) { el.innerHTML = ''; updateStats(); return; }
 
-    function updateCounter() {
-      const count = JSON.parse(localStorage.getItem('ghosttracker_waitlist') || '[]').length;
-      // Future: show waitlist count
-    }
+    el.innerHTML = proposals.map(p => {
+      const age = timeAgo(p.created);
+      const views = p.events.filter(e => e.type === 'open').length;
+      const statusColors = { sent: 'text-yellow-400 bg-yellow-400/10', viewed: 'text-blue-400 bg-blue-400/10', engaged: 'text-green-400 bg-green-400/10', ghosted: 'text-red-400 bg-red-400/10' };
+      const sc = statusColors[p.status] || statusColors.sent;
+      const score = calcEngagement(p);
 
-    // Enter key submits
-    document.getElementById('email-input')?.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') submitWaitlist();
+      return `
+        <div class="glass rounded-xl p-4 card-hover cursor-pointer flex items-center justify-between gap-4" onclick="openDetail('${p.id}')">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="font-bold text-sm truncate">${esc(p.title)}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium ${sc}">${p.status}</span>
+            </div>
+            <p class="text-xs text-gray-500 truncate">${esc(p.client)} · ${p.pages} pages${p.value ? ' · $' + p.value.toLocaleString() : ''} · ${age}</p>
+          </div>
+          <div class="flex items-center gap-4 flex-shrink-0">
+            <div class="text-center">
+              <p class="text-lg font-bold">${views}</p>
+              <p class="text-xs text-gray-500">views</p>
+            </div>
+            <div class="text-center">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${score.class}" title="Engagement: ${score.label}">${score.value}</div>
+            </div>
+            <button onclick="event.stopPropagation(); deleteProposal('${p.id}')" class="text-gray-600 hover:text-red-400 transition text-lg" title="Delete">×</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    updateStats();
+  }
+
+  function deleteProposal(id) {
+    proposals = proposals.filter(p => p.id !== id);
+    save();
+    if (activeProposalId === id) closeDetail();
+    renderList();
+  }
+
+  function updateStats() {
+    document.getElementById('stat-total').textContent = proposals.length;
+    document.getElementById('stat-viewed').textContent = proposals.filter(p => p.status === 'viewed' || p.status === 'engaged').length;
+    document.getElementById('stat-pending').textContent = proposals.filter(p => p.status === 'sent').length;
+    document.getElementById('stat-ghosted').textContent = proposals.filter(p => p.status === 'ghosted').length;
+  }
+
+  // ─── Engagement Score ───
+  function calcEngagement(p) {
+    const views = p.events.filter(e => e.type === 'open').length;
+    const forwards = p.events.filter(e => e.type === 'forward').length;
+    const totalTime = p.pageData.reduce((s, pg) => s + pg.timeMs, 0);
+    const pricingViews = p.pageData.filter((pg, i) => pg.label.toLowerCase().includes('pric') || pg.label.toLowerCase().includes('invest') || pg.label.toLowerCase().includes('fee')).reduce((s, pg) => s + pg.views, 0);
+
+    let score = 0;
+    score += Math.min(views * 15, 30);
+    score += Math.min(forwards * 20, 20);
+    score += Math.min(Math.floor(totalTime / 60000) * 5, 25);
+    score += Math.min(pricingViews * 10, 25);
+
+    if (score === 0) return { value: '—', label: 'No data', class: 'bg-dark-700 text-gray-500' };
+    if (score >= 75) return { value: score, label: 'Hot 🔥', class: 'bg-green-500/20 text-green-400' };
+    if (score >= 50) return { value: score, label: 'Warm', class: 'bg-blue-500/20 text-blue-400' };
+    if (score >= 25) return { value: score, label: 'Cool', class: 'bg-yellow-500/20 text-yellow-400' };
+    return { value: score, label: 'Cold', class: 'bg-gray-500/20 text-gray-400' };
+  }
+
+  // ─── Detail View ───
+  function openDetail(id) {
+    const p = proposals.find(x => x.id === id);
+    if (!p) return;
+    activeProposalId = id;
+
+    document.getElementById('detail-view').classList.remove('hidden');
+    document.getElementById('detail-title').textContent = `${p.title} — ${p.client}`;
+    document.getElementById('detail-meta').textContent = `Sent ${timeAgo(p.created)} · ${p.pages} pages${p.value ? ' · $' + p.value.toLocaleString() : ''}`;
+    document.getElementById('detail-link').textContent = p.link;
+
+    const statusColors = { sent: 'bg-yellow-400/10 text-yellow-400', viewed: 'bg-blue-400/10 text-blue-400', engaged: 'bg-green-400/10 text-green-400', ghosted: 'bg-red-400/10 text-red-400' };
+    document.getElementById('detail-status').className = `px-3 py-1 rounded-full text-sm font-medium ${statusColors[p.status] || ''}`;
+    document.getElementById('detail-status').textContent = p.status.charAt(0).toUpperCase() + p.status.slice(1);
+
+    const score = calcEngagement(p);
+    document.getElementById('detail-score').className = `px-3 py-1 rounded-full text-sm font-bold ${score.class}`;
+    document.getElementById('detail-score').textContent = score.value === '—' ? '—' : `${score.value}/100`;
+
+    switchTab('overview');
+    refreshOverview(p);
+    refreshHeatmap(p);
+    refreshActivityFeed(p);
+    document.getElementById('detail-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function closeDetail() {
+    document.getElementById('detail-view').classList.add('hidden');
+    activeProposalId = null;
+  }
+
+  function switchTab(tab) {
+    ['overview', 'activity', 'heatmap', 'followup'].forEach(t => {
+      document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== tab);
+      document.getElementById(`tab-${t}`).className = t === tab ? 'tab-active px-6 py-3 text-sm font-medium transition' : 'tab-inactive px-6 py-3 text-sm font-medium transition';
     });
-  </script>
+  }
 
+  // ─── Overview ───
+  function refreshOverview(p) {
+    const views = p.events.filter(e => e.type === 'open').length;
+    const unique = new Set(p.events.filter(e => e.type === 'open').map(e => e.viewerId)).size;
+    const forwards = p.events.filter(e => e.type === 'forward').length;
+    const totalTime = p.pageData.reduce((s, pg) => s + pg.timeMs, 0);
 
-    <!-- Cross-Promotion: OpenSphere Labs -->
-    <section class="py-16 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-10">
-                <p class="text-sm text-gray-500 uppercase tracking-widest mb-2">Also from</p>
-                <a href="https://atalovesyou.github.io/opensphere-labs/" target="_blank" class="text-xl font-bold text-white hover:text-indigo-400 transition">OpenSphere Labs</a>
-                <p class="text-gray-400 text-sm mt-2">AI-powered micro-tools for freelancers &amp; small businesses</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <a href="https://atalovesyou.github.io/unslop-ai/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">🧹 UnSlop.ai</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI slop detector & humanizer</div>
-                </a>
-                <a href="https://atalovesyou.github.io/immigranttax-ai/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">🌍 ImmigrantTax.ai</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">Cross-border tax for immigrants</div>
-                </a>
-                <a href="https://atalovesyou.github.io/intakebot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">💬 IntakeBot</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI conversational client intake</div>
-                </a>
-                <a href="https://atalovesyou.github.io/reviewagent/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">⭐ ReviewAgent</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI review management for SMBs</div>
-                </a>
-                <a href="https://atalovesyou.github.io/nameforge/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">✨ NameForge</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI business name generator</div>
-                </a>
-                <a href="https://atalovesyou.github.io/contractpilot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">📝 ContractPilot</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI contracts for freelancers</div>
-                </a>
-            </div>
-                <a href="https://atalovesyou.github.io/invoicepilot/" target="_blank" class="glass rounded-xl p-4 hover:bg-white/5 transition group">
-                    <div class="text-lg mb-1">💰 InvoicePilot</div>
-                    <div class="text-xs text-gray-400 group-hover:text-gray-300">AI invoicing for freelancers</div>
-                </a>
-            <div class="text-center mt-8">
-                <a href="https://atalovesyou.github.io/opensphere-labs/" target="_blank" class="text-sm text-indigo-400 hover:text-indigo-300 transition">View all products →</a>
-            </div>
-        </div>
-    </section>
+    document.getElementById('ov-views').textContent = views;
+    document.getElementById('ov-unique').textContent = unique;
+    document.getElementById('ov-time').textContent = formatDuration(totalTime);
+    document.getElementById('ov-forwards').textContent = forwards;
 
-  <!-- Analytics (GoatCounter — privacy-friendly, no cookies) -->
-  <script data-goatcounter="https://opensphere-labs.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    // AI Insight
+    document.getElementById('ov-insight-text').textContent = generateInsight(p);
+  }
 
-  <!-- Real Email Capture (Formsubmit.co — free, no backend) -->
-  <script>
-    // Intercept all waitlist form submissions and forward to Formsubmit.co
-    (function() {
-      const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/atalashutosh@gmail.com';
-      const PRODUCT = 'ghosttracker';
-      
-      // Override any existing form submission to also send via Formsubmit
-      const origSubmit = window.submitWaitlist || window.handleWaitlist || window.joinWaitlist;
-      
-      function captureEmail(email) {
-        if (!email || !email.includes('@')) return;
-        
-        // Send to Formsubmit.co via AJAX (no redirect)
-        fetch(FORMSUBMIT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            product: PRODUCT,
-            source: 'waitlist',
-            timestamp: new Date().toISOString(),
-            _subject: PRODUCT + ' Waitlist Signup: ' + email,
-            _template: 'table'
-          })
-        }).catch(function() {});
+  function generateInsight(p) {
+    const views = p.events.filter(e => e.type === 'open').length;
+    const forwards = p.events.filter(e => e.type === 'forward').length;
+    const totalTime = p.pageData.reduce((s, pg) => s + pg.timeMs, 0);
+    const pricingPages = p.pageData.filter(pg => pg.label.toLowerCase().includes('pric') || pg.label.toLowerCase().includes('invest') || pg.label.toLowerCase().includes('fee'));
+    const pricingTime = pricingPages.reduce((s, pg) => s + pg.timeMs, 0);
+    const avgPageTime = p.pageData.filter(pg => pg.timeMs > 0).length > 0 ? totalTime / p.pageData.filter(pg => pg.timeMs > 0).length : 0;
+    const hotPages = p.pageData.filter(pg => pg.timeMs > avgPageTime * 1.5).map(pg => pg.label);
+
+    if (views === 0) return 'No views yet. Share the tracked link with your client. Most proposals get opened within 48 hours of sending.';
+
+    const insights = [];
+
+    if (forwards > 0) {
+      insights.push(`The proposal was forwarded to ${forwards} additional viewer${forwards > 1 ? 's' : ''}. This typically means they're sharing it with a decision-maker or getting budget approval.`);
+    }
+
+    if (pricingTime > avgPageTime * 2 && pricingPages.some(pg => pg.views > 1)) {
+      insights.push(`They spent ${formatDuration(pricingTime)} on pricing pages with ${pricingPages.reduce((s, pg) => s + pg.views, 0)} repeat views — strong buying signal. They're comparing your price against alternatives.`);
+    }
+
+    if (views >= 3 && totalTime > 120000) {
+      insights.push(`With ${views} views and ${formatDuration(totalTime)} total reading time, this is high engagement. Follow up within 24 hours — they're actively evaluating.`);
+    } else if (views === 1 && totalTime < 60000) {
+      insights.push(`Quick first skim (${formatDuration(totalTime)}). They may come back for a deeper read. If no second view in 48 hours, send a gentle check-in.`);
+    }
+
+    if (hotPages.length > 0 && hotPages.length <= 3) {
+      insights.push(`Most attention on: ${hotPages.join(', ')}. Tailor your follow-up to address what they focused on.`);
+    }
+
+    if (insights.length === 0) {
+      insights.push(`Proposal viewed ${views} time${views > 1 ? 's' : ''} with ${formatDuration(totalTime)} total reading time. Engagement looks ${views >= 2 ? 'promising' : 'early-stage'}. ${views >= 2 ? 'A follow-up now could close the deal.' : 'Give it 24-48 more hours before following up.'}`);
+    }
+
+    return insights.join(' ');
+  }
+
+  // ─── Activity Feed ───
+  function refreshActivityFeed(p) {
+    const feed = document.getElementById('activity-feed');
+    if (!p.events.length) {
+      feed.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">No activity yet. Click "Simulate New Activity" to see tracking in action.</p>';
+      return;
+    }
+
+    feed.innerHTML = p.events.slice().reverse().map(e => {
+      const icons = { open: '👁️', page_view: '📄', forward: '📤', download: '⬇️', return_visit: '🔁' };
+      const colors = { open: 'border-blue-500/30', page_view: 'border-gray-600/30', forward: 'border-purple-500/30', download: 'border-green-500/30', return_visit: 'border-yellow-500/30' };
+      return `
+        <div class="event-pop flex gap-3 items-start bg-dark-800 rounded-lg p-3 border-l-2 ${colors[e.type] || 'border-dark-600'}">
+          <span class="text-lg flex-shrink-0">${icons[e.type] || '📌'}</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium">${esc(e.text)}</p>
+            <p class="text-xs text-gray-500 mt-0.5">${e.city} · ${e.device} · ${timeAgo(e.ts)}</p>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ─── Simulate Activity ───
+  function simulateActivity() {
+    const p = proposals.find(x => x.id === activeProposalId);
+    if (!p) return;
+
+    // Determine viewer
+    const isNew = p.viewers.length === 0 || Math.random() < 0.3;
+    let viewer;
+    if (isNew) {
+      viewer = { id: 'v_' + Math.random().toString(36).slice(2, 6), city: CITIES[Math.floor(Math.random() * CITIES.length)], device: DEVICES[Math.floor(Math.random() * DEVICES.length)] };
+      p.viewers.push(viewer);
+    } else {
+      viewer = p.viewers[Math.floor(Math.random() * p.viewers.length)];
+    }
+
+    const deviceStr = `${viewer.device.browser} · ${viewer.device.os}`;
+
+    // Generate 3-8 events in a burst
+    const burstCount = 3 + Math.floor(Math.random() * 6);
+    const now = Date.now();
+
+    // First: open event
+    p.events.push({ type: isNew && p.events.filter(e => e.viewerId === viewer.id).length === 0 ? 'open' : 'return_visit', text: isNew ? 'Proposal opened for the first time' : 'Viewer returned to proposal', city: viewer.city, device: deviceStr, ts: now, viewerId: viewer.id });
+    p.status = p.events.filter(e => e.type === 'open' || e.type === 'return_visit').length >= 3 ? 'engaged' : 'viewed';
+
+    // Page views
+    for (let i = 1; i < burstCount; i++) {
+      const pageIdx = Math.floor(Math.random() * p.pages);
+      const pg = p.pageData[pageIdx];
+      const timeSpent = 5000 + Math.floor(Math.random() * 120000); // 5s - 2min
+      pg.views++;
+      pg.timeMs += timeSpent;
+      pg.scrollPct = Math.min(100, pg.scrollPct + 20 + Math.floor(Math.random() * 80));
+
+      p.events.push({ type: 'page_view', text: `Viewed "${pg.label}" (page ${pg.page}) for ${formatDuration(timeSpent)}`, city: viewer.city, device: deviceStr, ts: now + i * 1000, viewerId: viewer.id });
+    }
+
+    // Maybe a forward (20% chance)
+    if (Math.random() < 0.2) {
+      const fwdCity = CITIES[Math.floor(Math.random() * CITIES.length)];
+      const fwdDevice = DEVICES[Math.floor(Math.random() * DEVICES.length)];
+      const newViewer = { id: 'v_' + Math.random().toString(36).slice(2, 6), city: fwdCity, device: fwdDevice };
+      p.viewers.push(newViewer);
+      p.events.push({ type: 'forward', text: `Proposal forwarded — new viewer detected in ${fwdCity}`, city: fwdCity, device: `${fwdDevice.browser} · ${fwdDevice.os}`, ts: now + burstCount * 1000, viewerId: newViewer.id });
+    }
+
+    save();
+    openDetail(p.id);
+    switchTab('activity');
+    renderList();
+  }
+
+  // ─── Heatmap ───
+  function refreshHeatmap(p) {
+    const container = document.getElementById('heatmap-container');
+    const maxTime = Math.max(...p.pageData.map(pg => pg.timeMs), 1);
+
+    container.innerHTML = `
+      <div class="flex gap-1.5 items-end" style="height: 120px">
+        ${p.pageData.map((pg, i) => {
+          const pct = pg.timeMs > 0 ? Math.max(10, (pg.timeMs / maxTime) * 100) : 5;
+          const opacity = pg.timeMs > 0 ? 0.2 + (pg.timeMs / maxTime) * 0.8 : 0.05;
+          return `<div class="heatmap-bar flex-1 rounded-t relative group" style="height:${pct}%; background: rgba(139,92,246,${opacity})" onclick="showPageDetail(${i})" title="${pg.label}: ${formatDuration(pg.timeMs)}">
+            <span class="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] text-gray-500">${pg.page}</span>
+            <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-ghost-300 opacity-0 group-hover:opacity-100 transition whitespace-nowrap">${pg.label}</span>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="h-6"></div>`;
+  }
+
+  function showPageDetail(idx) {
+    const p = proposals.find(x => x.id === activeProposalId);
+    if (!p) return;
+    const pg = p.pageData[idx];
+    document.getElementById('heatmap-detail').classList.remove('hidden');
+    document.getElementById('heatmap-page-title').textContent = `Page ${pg.page}: ${pg.label}`;
+    document.getElementById('hm-time').textContent = formatDuration(pg.timeMs);
+    document.getElementById('hm-views').textContent = pg.views;
+    document.getElementById('hm-scroll').textContent = pg.scrollPct + '%';
+  }
+
+  // ─── Follow-Up Email Generator ───
+  function generateFollowUp(tone) {
+    const p = proposals.find(x => x.id === activeProposalId);
+    if (!p) return;
+
+    const name = document.getElementById('fu-name').value.trim() || 'there';
+    const views = p.events.filter(e => e.type === 'open' || e.type === 'return_visit').length;
+    const forwards = p.events.filter(e => e.type === 'forward').length;
+    const hotPages = p.pageData.filter(pg => pg.timeMs > 30000).map(pg => pg.label).slice(0, 3);
+    const pricingViewed = p.pageData.some(pg => (pg.label.toLowerCase().includes('pric') || pg.label.toLowerCase().includes('invest') || pg.label.toLowerCase().includes('fee')) && pg.views > 0);
+
+    let subject, body;
+
+    if (tone === 'gentle') {
+      subject = `Quick check-in: ${p.title}`;
+      body = `Hi ${p.client},\n\nHope your week is going well! I wanted to follow up on the ${p.title.toLowerCase()} I sent over${views > 0 ? '' : ' recently'}.\n\n`;
+      if (views > 1) body += `I noticed there's been some interest, and I'd love to answer any questions you might have.\n\n`;
+      else body += `I know things get busy — just wanted to make sure it didn't get buried in your inbox.\n\n`;
+      body += `Would you have 15 minutes this week for a quick call? Happy to walk through any part of it.\n\nBest,\n${name}`;
+    } else if (tone === 'value') {
+      subject = `Thought this might help: ${p.title}`;
+      body = `Hi ${p.client},\n\nI was thinking about your project and wanted to share something relevant.\n\n`;
+      if (hotPages.length > 0) body += `Based on the areas that seemed most relevant to you (${hotPages.join(', ')}), `;
+      else body += `Based on our initial discussion, `;
+      body += `I put together some additional thoughts:\n\n`;
+      body += `• A similar project we completed saw a ${15 + Math.floor(Math.random() * 35)}% improvement in their core metrics within 3 months\n`;
+      body += `• I've identified ${2 + Math.floor(Math.random() * 3)} quick wins we could tackle in the first sprint\n`;
+      if (pricingViewed) body += `• I also have some flexible pricing options if we need to adjust scope\n`;
+      body += `\nWould any of these be worth discussing? I can jump on a call whenever works.\n\nBest,\n${name}`;
+    } else { // urgent
+      subject = `${p.title} — Availability update`;
+      body = `Hi ${p.client},\n\nI wanted to give you a heads-up — my schedule is filling up for ${getNextMonth()}, and I'd hate for timing to become an issue on this project.\n\n`;
+      if (p.value) body += `The ${p.title.toLowerCase()} I shared${views > 0 ? ' (which I see you\'ve had a chance to review)' : ''} is ready to go at the quoted $${p.value.toLocaleString()}.\n\n`;
+      else body += `The proposal I shared${views > 0 ? ' (which I see you\'ve had a chance to review)' : ''} is ready to move forward.\n\n`;
+      if (forwards > 0) body += `I understand there may be other stakeholders involved in the decision — happy to jump on a call with your team if that would help move things along.\n\n`;
+      body += `If you can confirm by ${getNextFriday()}, I can guarantee the timeline we discussed. After that, I may need to push the start date.\n\nLet me know how you'd like to proceed.\n\nBest,\n${name}`;
+    }
+
+    document.getElementById('fu-subject').textContent = subject;
+    document.getElementById('fu-body').textContent = body;
+    document.getElementById('followup-output').classList.remove('hidden');
+  }
+
+  function copyFollowUp() {
+    const subject = document.getElementById('fu-subject').textContent;
+    const body = document.getElementById('fu-body').textContent;
+    navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`).then(() => showToast('Follow-up email copied!'));
+  }
+
+  function copyLink() {
+    const link = document.getElementById('detail-link').textContent;
+    navigator.clipboard.writeText(link).then(() => showToast('Tracked link copied!'));
+  }
+
+  // ─── Utilities ───
+  function timeAgo(ts) {
+    const diff = Date.now() - ts;
+    if (diff < 60000) return 'just now';
+    if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+    if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+    return Math.floor(diff / 86400000) + 'd ago';
+  }
+
+  function formatDuration(ms) {
+    if (ms < 1000) return '0s';
+    if (ms < 60000) return Math.floor(ms / 1000) + 's';
+    if (ms < 3600000) return Math.floor(ms / 60000) + 'm ' + Math.floor((ms % 60000) / 1000) + 's';
+    return Math.floor(ms / 3600000) + 'h ' + Math.floor((ms % 3600000) / 60000) + 'm';
+  }
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  function getNextMonth() {
+    const d = new Date(); d.setMonth(d.getMonth() + 1);
+    return d.toLocaleDateString('en-US', { month: 'long' });
+  }
+
+  function getNextFriday() {
+    const d = new Date(); d.setDate(d.getDate() + (5 - d.getDay() + 7) % 7 || 7);
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'copy-toast fixed bottom-6 left-1/2 -translate-x-1/2 bg-ghost-600 text-white text-sm px-4 py-2 rounded-lg shadow-lg z-50';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
+  function scrollToWaitlist() {
+    document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => document.getElementById('email-input')?.focus(), 500);
+  }
+
+  // ─── Waitlist form (Formsubmit AJAX) ───
+  const wForm = document.getElementById('waitlist-form-el');
+  if (wForm) {
+    wForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      fetch(this.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+        .then(r => r.json()).then(() => {
+          document.getElementById('waitlist-form').querySelector('form').classList.add('hidden');
+          document.getElementById('waitlist-form').querySelector('p').classList.add('hidden');
+          document.getElementById('waitlist-success').classList.remove('hidden');
+        }).catch(() => {
+          // Fallback: store locally
+          const email = document.getElementById('email-input').value;
+          const wl = JSON.parse(localStorage.getItem('ghosttracker_waitlist') || '[]');
+          if (!wl.includes(email)) { wl.push(email); localStorage.setItem('ghosttracker_waitlist', JSON.stringify(wl)); }
+          document.getElementById('waitlist-form').querySelector('form').classList.add('hidden');
+          document.getElementById('waitlist-form').querySelector('p').classList.add('hidden');
+          document.getElementById('waitlist-success').classList.remove('hidden');
+        });
+    });
+  }
+
+  // ─── Ghost Detection (auto-mark as ghosted after 7 simulated days with no activity) ───
+  function checkGhosted() {
+    proposals.forEach(p => {
+      if (p.status === 'sent') {
+        const age = Date.now() - p.created;
+        if (age > 7 * 86400000) p.status = 'ghosted';
       }
-      
-      // Watch for form submissions on any email input
-      document.addEventListener('submit', function(e) {
-        const form = e.target;
-        const emailInput = form.querySelector('input[type="email"]');
-        if (emailInput && emailInput.value) {
-          captureEmail(emailInput.value);
-        }
-      });
-      
-      // Also intercept programmatic submissions
-      document.addEventListener('click', function(e) {
-        const btn = e.target;
-        if (btn.textContent && btn.textContent.includes('Waitlist')) {
-          setTimeout(function() {
-            const inputs = document.querySelectorAll('input[type="email"]');
-            inputs.forEach(function(input) {
-              if (input.value && input.value.includes('@')) {
-                captureEmail(input.value);
-              }
-            });
-          }, 100);
-        }
-      });
-    })();
+    });
+    save();
+  }
+
+  // ─── Init ───
+  checkGhosted();
+  renderList();
+
+  // Enter key in create form
+  ['inp-client', 'inp-title', 'inp-value'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keypress', e => { if (e.key === 'Enter') createProposal(); });
+  });
   </script>
 </body>
 </html>
